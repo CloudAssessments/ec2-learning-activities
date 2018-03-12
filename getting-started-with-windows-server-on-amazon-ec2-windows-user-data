@@ -1,0 +1,12 @@
+<powershell>
+Install-WindowsFeature Web-Server -IncludeManagementTools -IncludeAllSubFeature
+remove-item -recurse c:\inetpub\wwwroot\*
+(New-Object System.Net.WebClient).DownloadFile("https://files.cloudassessments.com/aws/ec2/getting-started-with-windows-server-on-amazon-ec2/ec2-windows.zip", "c:\inetpub\wwwroot\ec2-windows.zip")
+
+$shell = new-object -com shell.application
+$zip = $shell.NameSpace("c:\inetpub\wwwroot\ec2-windows.zip")
+foreach($item in $zip.items())
+{
+	$shell.Namespace("c:\inetpub\wwwroot\").copyhere($item)
+}
+</powershell>
